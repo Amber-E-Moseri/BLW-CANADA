@@ -24,6 +24,10 @@
       /* ✅ unified button geometry */
       --btn-h: 48px;
       --btn-r: 12px;
+
+      /* ✅ role cards geometry */
+      --role-h: 76px;
+      --role-r: 12px;
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -37,7 +41,6 @@
       overflow-x: hidden;
     }
 
-    /* magenta glow + white sweep */
     body::after {
       content: '';
       position: fixed; inset: 0; z-index: 0; pointer-events: none;
@@ -48,7 +51,6 @@
       mix-blend-mode: screen;
     }
 
-    /* grain */
     body::before {
       content: '';
       position: fixed; inset: 0; z-index: 1; pointer-events: none;
@@ -57,7 +59,6 @@
       background-repeat: repeat;
     }
 
-    /* 4-point star — top left */
     .poster-star {
       position: fixed; z-index: 2; pointer-events: none;
       top: 52px; left: 48px;
@@ -65,7 +66,6 @@
     }
     .poster-star svg { width: 100%; height: 100%; }
 
-    /* grid — bottom right */
     .poster-grid {
       position: fixed; z-index: 2; pointer-events: none;
       right: -40px; bottom: -20px;
@@ -80,7 +80,6 @@
       -webkit-mask-image: radial-gradient(ellipse 90% 90% at 100% 100%, black 0%, transparent 70%);
     }
 
-    /* ── LAYOUT ── */
     .wrap {
       position: relative; z-index: 3;
       max-width: 820px;
@@ -91,7 +90,6 @@
       align-items: center;
     }
 
-    /* ── HEADER ── */
     .header { width: 100%; text-align: center; margin-bottom: 40px; }
 
     .kicker {
@@ -117,7 +115,6 @@
       letter-spacing: 3px;
     }
 
-    /* chips */
     .chips {
       display: flex; gap: 16px; justify-content: center;
       margin: 36px 0 0; flex-wrap: wrap;
@@ -157,7 +154,6 @@
     .detail-val a { color: var(--accent2); text-decoration: none; }
     .detail-val a:hover { text-decoration: underline; }
 
-    /* ── FORM CARD ── */
     .form-card {
       width: 100%; max-width: 600px;
       background: rgba(10,10,14,0.60);
@@ -169,7 +165,6 @@
       box-shadow: 0 30px 90px rgba(0,0,0,0.65), inset 0 1px 0 rgba(255,255,255,0.06);
     }
 
-    /* step counter */
     .step-counter { display: flex; align-items: center; gap: 6px; margin-bottom: 26px; }
     .s-num {
       font-weight: 300; font-size: 10px; color: var(--faint);
@@ -228,24 +223,53 @@
       font-size: 10px; color: var(--faint); pointer-events: none;
     }
 
-    /* role grid */
-    .role-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; margin-bottom: 16px; }
-    .role-grid .rc:nth-child(1) { grid-column: span 2; }
-    .role-grid .rc:nth-child(2) { grid-column: span 2; }
-    .role-grid .rc:nth-child(3) { grid-column: span 2; }
-    .role-grid .rc:nth-child(4) { grid-column: span 3; }
-    .role-grid .rc:nth-child(5) { grid-column: span 3; }
-    .rc { position: relative; cursor: pointer; }
-    .rc input[type=radio] { position: absolute; opacity: 0; width: 0; height: 0; }
-    .rc-inner {
-      border: 1px solid rgba(255,255,255,0.10); padding: 14px 8px 12px; text-align: center;
-      transition: all 0.2s; cursor: pointer; background: rgba(255,255,255,0.03);
-      border-radius: 12px; /* small polish */
+    /* ✅ ROLE GRID — FIXED (equal height + no spans) */
+    .role-grid{
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 10px;
+      margin-bottom: 16px;
+      align-items: stretch;
     }
-    .rc-inner:hover { border-color: rgba(255,255,255,0.28); background: rgba(255,255,255,0.06); }
-    .rc input:checked + .rc-inner { border-color: var(--accent); background: rgba(180,27,79,0.14); }
-    .rc-icon { font-size: 17px; margin-bottom: 5px; }
-    .rc-label { font-weight: 300; font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--sub); }
+    .rc{ position: relative; cursor: pointer; display: flex; }
+    .rc input[type=radio]{ position:absolute; opacity:0; width:0; height:0; }
+
+    .rc-inner{
+      width:100%;
+      height: var(--role-h);
+      border: 1px solid rgba(255,255,255,0.10);
+      padding: 14px 10px;
+      text-align: center;
+      transition: all 0.2s;
+      cursor: pointer;
+      background: rgba(255,255,255,0.03);
+      border-radius: var(--role-r);
+
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      gap: 6px;
+    }
+    .rc-inner:hover{ border-color: rgba(255,255,255,0.28); background: rgba(255,255,255,0.06); }
+    .rc input:checked + .rc-inner{ border-color: var(--accent); background: rgba(180,27,79,0.14); }
+
+    .rc-icon{ font-size: 18px; margin: 0; }
+
+    /* ✅ Prevent label wrapping from changing card height */
+    .rc-label{
+      font-weight: 300;
+      font-size: 9px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--sub);
+      line-height: 1.15;
+
+      display: -webkit-box;
+      -webkit-line-clamp: 2;       /* allow 2 lines max, but never grows height */
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
 
     .cg { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 11px; cursor: pointer; }
     .cg input[type=checkbox] {
@@ -267,9 +291,8 @@
 
     .btn-row { display: flex; gap: 10px; margin-top: 28px; align-items: stretch; }
 
-    /* base button shape */
-    .btn-back, .btn-next, .btn-submit,
-    .btn-zoom, .btn-ics{
+    /* ✅ unified button geometry */
+    .btn-back, .btn-next, .btn-submit, .btn-zoom, .btn-ics{
       height: var(--btn-h);
       border-radius: var(--btn-r);
       padding: 0 18px;
@@ -305,12 +328,12 @@
       box-shadow: 0 12px 40px rgba(180,27,79,0.55);
       transform: translateY(-1px);
     }
+    .btn-submit:disabled{ cursor:not-allowed; transform:none; box-shadow:none; }
 
     .form-step { display: none; animation: fadeIn 0.3s ease; }
     .form-step.active { display: block; }
     @keyframes fadeIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
 
-    /* success */
     .success-wrap { display: none; text-align: center; padding: 8px 0; animation: fadeIn 0.5s ease; }
     .success-wrap.active { display: block; }
     .success-star { font-size: 28px; margin-bottom: 18px; display: block; animation: popIn .5s cubic-bezier(.175,.885,.32,1.275); }
@@ -330,7 +353,6 @@
     .conf-v a:hover { text-decoration: underline; }
 
     .btn-zoom {
-      display: inline-flex;
       width: 100%;
       background: var(--accent);
       color: #fff;
@@ -345,7 +367,6 @@
     .btn-zoom:hover { background: var(--accent2); transform: translateY(-1px); }
 
     .btn-ics {
-      display: inline-flex;
       width: 100%;
       background: rgba(255,255,255,0.02);
       color: var(--sub);
@@ -360,8 +381,11 @@
     @media (max-width: 560px) {
       .form-card { padding: 32px 20px; }
       .f-row { grid-template-columns: 1fr; }
-      .role-grid { grid-template-columns: 1fr 1fr; }
-      .role-grid .rc:nth-child(n) { grid-column: span 1; }
+
+      /* ✅ mobile roles */
+      .role-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .rc-inner { height: 78px; }
+
       .title-main { font-size: 58px; letter-spacing: 1px; }
       .poster-star { top: 16px; left: 16px; width: 60px; height: 60px; }
     }
@@ -369,14 +393,12 @@
 </head>
 <body>
 
-  <!-- 4-point star sparkle — top left, exactly like the poster -->
   <div class="poster-star" aria-hidden="true">
     <svg viewBox="0 0 88 88" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M44 2 L47.5 40.5 L86 44 L47.5 47.5 L44 86 L40.5 47.5 L2 44 L40.5 40.5 Z" fill="white"/>
     </svg>
   </div>
 
-  <!-- grid lines — bottom right -->
   <div class="poster-grid" aria-hidden="true"></div>
 
   <div class="wrap">
@@ -409,7 +431,6 @@
       </div>
     </div>
 
-    <!-- FORM CARD -->
     <div class="form-card">
 
       <div class="step-counter" id="stepCounter">
@@ -420,7 +441,6 @@
 
       <div class="prog"><div class="prog-fill" id="progFill" style="width:50%"></div></div>
 
-      <!-- STEP 1 -->
       <div class="form-step active" id="step1">
         <div class="step-title">Your Details</div>
         <div class="step-desc">Takes under a minute</div>
@@ -470,22 +490,54 @@
         </div>
       </div>
 
-      <!-- STEP 2 -->
       <div class="form-step" id="step2">
         <div class="step-title">Your Role</div>
+        <div class="step-desc">So we can serve you better</div>
+
         <label class="fl">I am a…</label>
+
         <div class="role-grid">
-          <label class="rc"><input type="radio" name="role" value="pastor"/>
-            <div class="rc-inner"><div class="rc-icon">⛪</div><div class="rc-label">Pastor</div></div></label>
-          <label class="rc"><input type="radio" name="role" value="coordinator"/>
-            <div class="rc-inner"><div class="rc-icon">📋</div><div class="rc-label">Coordinator</div></div></label>
-          <label class="rc"><input type="radio" name="role" value="cell-leader"/>
-            <div class="rc-inner"><div class="rc-icon">🏆</div><div class="rc-label">Cell Leader</div></div></label>
-          <label class="rc"><input type="radio" name="role" value="bst"/>
-            <div class="rc-inner"><div class="rc-icon">📖</div><div class="rc-label">Bible Study Teacher</div></div></label>
-          <label class="rc"><input type="radio" name="role" value="member"/>
-            <div class="rc-inner"><div class="rc-icon">✨</div><div class="rc-label">Member</div></div></label>
+          <label class="rc">
+            <input type="radio" name="role" value="pastor"/>
+            <div class="rc-inner">
+              <div class="rc-icon">⛪</div>
+              <div class="rc-label">Pastor</div>
+            </div>
+          </label>
+
+          <label class="rc">
+            <input type="radio" name="role" value="coordinator"/>
+            <div class="rc-inner">
+              <div class="rc-icon">📋</div>
+              <div class="rc-label">Coordinator</div>
+            </div>
+          </label>
+
+          <label class="rc">
+            <input type="radio" name="role" value="cell-leader"/>
+            <div class="rc-inner">
+              <div class="rc-icon">🏆</div>
+              <div class="rc-label">Cell Leader</div>
+            </div>
+          </label>
+
+          <label class="rc">
+            <input type="radio" name="role" value="bst"/>
+            <div class="rc-inner">
+              <div class="rc-icon">📖</div>
+              <div class="rc-label">Bible Study Teacher</div>
+            </div>
+          </label>
+
+          <label class="rc">
+            <input type="radio" name="role" value="member"/>
+            <div class="rc-inner">
+              <div class="rc-icon">✨</div>
+              <div class="rc-label">Member</div>
+            </div>
+          </label>
         </div>
+
         <div class="field-error" id="roleErr" style="margin-bottom:12px;">Please select your role</div>
 
         <div class="fg">
@@ -505,7 +557,6 @@
         </div>
       </div>
 
-      <!-- SUCCESS -->
       <div class="success-wrap" id="successWrap">
         <span class="success-star">✦</span>
         <div class="success-hed">See you at<br>The God Class.</div>
@@ -569,7 +620,7 @@
     function se(id,el) { document.getElementById(id).style.display='block'; if(el) el.classList.add('err'); }
     function he(id,el) { document.getElementById(id).style.display='none';  if(el) el.classList.remove('err'); }
 
-    /* ✅ INSTANT SUBMIT (fast UX): show success first, send in background */
+    /* ✅ INSTANT SUBMIT */
     let submitting = false;
     async function doSubmit() {
       if (submitting) return;
@@ -599,7 +650,7 @@
         ts: Date.now()
       };
 
-      // ✅ instant success UI (no waiting on Apps Script)
+      // show success instantly
       document.getElementById('step2').classList.remove('active');
       document.getElementById('stepCounter').style.display = 'none';
       document.getElementById('progFill').style.width = '100%';
@@ -609,7 +660,6 @@
 
       const body = JSON.stringify(payload);
 
-      // ✅ fastest path
       try {
         if (navigator.sendBeacon) {
           const ok = navigator.sendBeacon(
@@ -620,31 +670,13 @@
         }
       } catch(e) {}
 
-      // ✅ fallback (still doesn't block UI)
       fetch(ENDPOINT, {
         method: 'POST',
         mode: 'cors',
         cache: 'no-store',
         headers: { 'Content-Type': 'text/plain;charset=utf-8' },
         body
-      }).catch(() => {
-        // optional:
-        // toast('Your connection looks unstable. If you don’t get a confirmation message, submit again.');
-      });
-    }
-
-    function toast(msg) {
-      const t=document.createElement('div'); t.textContent=msg;
-      Object.assign(t.style,{
-        position:'fixed',left:'50%',bottom:'28px',transform:'translateX(-50%)',
-        background:'rgba(6,6,7,0.96)',border:'1px solid rgba(255,255,255,0.14)',
-        color:'#f4f3f6',padding:'12px 22px',fontFamily:'Josefin Sans,sans-serif',
-        fontSize:'11px',letterSpacing:'1.5px',zIndex:'9999',
-        boxShadow:'0 8px 32px rgba(0,0,0,0.7)',transition:'opacity .3s',
-        borderRadius:'12px'
-      });
-      document.body.appendChild(t);
-      setTimeout(()=>{t.style.opacity='0';setTimeout(()=>t.remove(),300);},3000);
+      }).catch(() => {});
     }
 
     document.querySelectorAll('input,select,textarea').forEach(el=>{
