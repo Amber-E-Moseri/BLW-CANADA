@@ -1,0 +1,19 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//BLW Canada//Delightfully His//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Delightfully His – BLW Canada
+X-WR-TIMEZONE:America/Chicago
+
+BEGIN:VEVENT
+UID:blw-canada-delightfully-his@blwcanada.ca
+DTSTART;TZID=America/Chicago:20260306T200000
+DTEND;TZID=America/Chicago:20260306T210000
+SUMMARY:Delightfully His
+DESCRIPTION:BLW Canada presents "Delightfully His".\n\nJoin us \n\nTime: March 6, 2026 at 8PM CST.\n\nJoin via Zoom.
+LOCATION:https://arizona.zoom.us/j/9780367559
+STATUS:CONFIRMED
+END:VEVENT
+
+END:VCALENDAR
