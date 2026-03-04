@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>BLW Canada Events</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Josefin+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+
+*{box-sizing:border-box;margin:0;padding:0;}
+
+body{
+  background:#050506;
+  color:#ffffff;
+  font-family:"Josefin Sans",sans-serif;
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:40px 20px;
+}
+
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  background:
+  radial-gradient(circle at 15% 20%, rgba(255,70,120,.35), transparent 50%),
+  radial-gradient(circle at 80% 30%, rgba(255,255,255,.2), transparent 60%);
+  z-index:-1;
+}
+
+.wrap{
+  max-width:1000px;
+  width:100%;
+  text-align:center;
+}
+
+h1{
+  font-family:"Cinzel",serif;
+  font-size:clamp(40px,6vw,72px);
+  letter-spacing:2px;
+  margin-bottom:14px;
+}
+
+.sub{
+  opacity:.7;
+  margin-bottom:60px;
+  font-size:18px;
+}
+
+.grid{
+  display:grid;
+  gap:30px;
+}
+
+@media(min-width:800px){
+  .grid{
+    grid-template-columns:repeat(3,1fr);
+  }
+}
+
+.card{
+  background:rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,.15);
+  border-radius:18px;
+  padding:36px 28px;
+  backdrop-filter:blur(14px);
+}
+
+.card h2{
+  font-family:"Cinzel",serif;
+  font-size:28px;
+  margin-bottom:14px;
+}
+
+.meta{
+  opacity:.75;
+  margin-bottom:24px;
+}
+
+.btn{
+  display:inline-block;
+  padding:12px 20px;
+  background:#b41b4f;
+  color:#fff;
+  text-decoration:none;
+  border-radius:8px;
+  font-weight:600;
+  transition:.25s;
+}
+
+.btn:hover{
+  background:#d32562;
+}
+
+.footer{
+  margin-top:60px;
+  font-size:14px;
+  opacity:.5;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="wrap">
+
+<h1>BLW Canada</h1>
+<div class="sub">Upcoming Programs</div>
+
+<div class="grid">
+
+<!-- Delightfully His -->
+
+<div class="card">
+<h2>Delightfully His</h2>
+<div class="meta">
+Friday • March 6, 2026<br>
+8:00 PM CST
+</div>
+<a href="delightfullyhis.html" class="btn">Register</a>
+</div>
+
+
+<!-- Delightfully His II -->
+
+<div class="card">
+<h2>Delightfully His II</h2>
+<div class="meta">
+Special Women's Session
+</div>
+<a href="delightfullyhisII.html" class="btn">Register</a>
+</div>
+
+
+<!-- The God Class -->
+
+<div class="card">
+<h2>The God Class</h2>
+<div class="meta">
+Saturday • March 7, 2026<br>
+10:00 PM CST
+</div>
+<a href="godclass.html" class="btn">Register</a>
+</div>
+
+</div>
+
+<div class="footer">
+BLW Canada
+</div>
+
+</div>
+
+</body>
+</html>
