@@ -4,106 +4,102 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>BLW Canada Events</title>
+<title>BLW Canada Programs</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Josefin+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 
 <style>
 
-*{box-sizing:border-box;margin:0;padding:0;}
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+}
 
 body{
-  background:#050506;
-  color:#ffffff;
-  font-family:"Josefin Sans",sans-serif;
-  min-height:100vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:40px 20px;
+font-family:"Inter",sans-serif;
+background:#f7f7f7;
+color:#222;
+min-height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
+padding:40px 20px;
 }
 
-body::before{
-  content:"";
-  position:fixed;
-  inset:0;
-  background:
-  radial-gradient(circle at 15% 20%, rgba(255,70,120,.35), transparent 50%),
-  radial-gradient(circle at 80% 30%, rgba(255,255,255,.2), transparent 60%);
-  z-index:-1;
+.container{
+max-width:900px;
+width:100%;
 }
 
-.wrap{
-  max-width:1000px;
-  width:100%;
-  text-align:center;
+header{
+text-align:center;
+margin-bottom:50px;
 }
 
 h1{
-  font-family:"Cinzel",serif;
-  font-size:clamp(40px,6vw,72px);
-  letter-spacing:2px;
-  margin-bottom:14px;
+font-family:"Libre Baskerville",serif;
+font-size:42px;
+margin-bottom:10px;
 }
 
-.sub{
-  opacity:.7;
-  margin-bottom:60px;
-  font-size:18px;
+.subtitle{
+opacity:.7;
+font-size:18px;
 }
 
 .grid{
-  display:grid;
-  gap:30px;
+display:grid;
+gap:24px;
 }
 
-@media(min-width:800px){
-  .grid{
-    grid-template-columns:repeat(3,1fr);
-  }
+@media(min-width:700px){
+.grid{
+grid-template-columns:repeat(3,1fr);
+}
 }
 
 .card{
-  background:rgba(255,255,255,0.05);
-  border:1px solid rgba(255,255,255,.15);
-  border-radius:18px;
-  padding:36px 28px;
-  backdrop-filter:blur(14px);
+background:white;
+border-radius:10px;
+padding:28px;
+border:1px solid #e4e4e4;
 }
 
 .card h2{
-  font-family:"Cinzel",serif;
-  font-size:28px;
-  margin-bottom:14px;
+font-family:"Libre Baskerville",serif;
+font-size:22px;
+margin-bottom:10px;
 }
 
 .meta{
-  opacity:.75;
-  margin-bottom:24px;
+font-size:14px;
+opacity:.7;
+margin-bottom:18px;
 }
 
 .btn{
-  display:inline-block;
-  padding:12px 20px;
-  background:#b41b4f;
-  color:#fff;
-  text-decoration:none;
-  border-radius:8px;
-  font-weight:600;
-  transition:.25s;
+display:inline-block;
+padding:10px 16px;
+background:#2f2f2f;
+color:white;
+text-decoration:none;
+border-radius:6px;
+font-size:14px;
 }
 
 .btn:hover{
-  background:#d32562;
+background:#000;
 }
 
-.footer{
-  margin-top:60px;
-  font-size:14px;
-  opacity:.5;
+footer{
+text-align:center;
+margin-top:50px;
+font-size:14px;
+opacity:.6;
 }
 
 </style>
@@ -111,10 +107,12 @@ h1{
 
 <body>
 
-<div class="wrap">
+<div class="container">
 
+<header>
 <h1>BLW Canada</h1>
-<div class="sub">Upcoming Programs</div>
+<div class="subtitle">Programs & Events</div>
+</header>
 
 <div class="grid">
 
@@ -123,40 +121,36 @@ h1{
 <div class="card">
 <h2>Delightfully His</h2>
 <div class="meta">
-Friday • March 6, 2026<br>
-8:00 PM CST
+March 6, 2026 • 8 PM CST
 </div>
 <a href="delightfullyhis.html" class="btn">Register</a>
 </div>
-
 
 <!-- Delightfully His II -->
 
 <div class="card">
 <h2>Delightfully His II</h2>
 <div class="meta">
-Special Women's Session
+Version 2
 </div>
 <a href="delightfullyhisII.html" class="btn">Register</a>
 </div>
-
 
 <!-- The God Class -->
 
 <div class="card">
 <h2>The God Class</h2>
 <div class="meta">
-Saturday • March 7, 2026<br>
-10:00 PM CST
+March 7, 2026 • 10 PM CST
 </div>
 <a href="godclass.html" class="btn">Register</a>
 </div>
 
 </div>
 
-<div class="footer">
+<footer>
 BLW Canada
-</div>
+</footer>
 
 </div>
 
