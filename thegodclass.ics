@@ -9,8 +9,8 @@ X-WR-TIMEZONE:America/Chicago
 BEGIN:VEVENT
 UID:blw-canada-the-god-class-20260307@blwcanada.ca
 DTSTAMP:20260303T000000Z
-DTSTART;TZID=America/Chicago:20260307T220000
-DTEND;TZID=America/Chicago:20260307T230000
+DTSTART;TZID=America/Chicago:20260307T200000
+DTEND;TZID=America/Chicago:20260307T210000
 SUMMARY:The God Class – BLW Canada
 DESCRIPTION:BLW Canada presents "The God Class".\n\nSaturday, March 7, 2026 at 08:00 PM CST.\n\nJoin us on Zoom:\nhttps://arizona.zoom.us/j/9780367559
 LOCATION:https://arizona.zoom.us/j/9780367559
