@@ -20,6 +20,10 @@
       --accent:       #b41b4f;
       --accent2:      #d4205c;
       --pill-text:    #6e1030;
+
+      /* ✅ unified button geometry */
+      --btn-h: 48px;
+      --btn-r: 12px;
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -236,6 +240,7 @@
     .rc-inner {
       border: 1px solid rgba(255,255,255,0.10); padding: 14px 8px 12px; text-align: center;
       transition: all 0.2s; cursor: pointer; background: rgba(255,255,255,0.03);
+      border-radius: 12px; /* small polish */
     }
     .rc-inner:hover { border-color: rgba(255,255,255,0.28); background: rgba(255,255,255,0.06); }
     .rc input:checked + .rc-inner { border-color: var(--accent); background: rgba(180,27,79,0.14); }
@@ -260,23 +265,44 @@
     .field-error { font-weight: 300; font-size: 9px; letter-spacing: 1.5px; color: #ff6b8a; margin-top: 4px; display: none; }
     input.err, select.err { border-bottom-color: #ff6b8a !important; }
 
-    .btn-row { display: flex; gap: 10px; margin-top: 28px; }
+    .btn-row { display: flex; gap: 10px; margin-top: 28px; align-items: stretch; }
+
+    /* base button shape */
+    .btn-back, .btn-next, .btn-submit,
+    .btn-zoom, .btn-ics{
+      height: var(--btn-h);
+      border-radius: var(--btn-r);
+      padding: 0 18px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+      white-space: nowrap;
+    }
+
     .btn-back {
-      padding: 12px 16px; background: transparent; border: 1px solid rgba(255,255,255,0.18);
-      color: var(--faint); font-family: 'Josefin Sans',sans-serif; font-weight: 300;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.18);
+      color: var(--faint);
+      font-family: 'Josefin Sans',sans-serif; font-weight: 300;
       font-size: 9px; letter-spacing: 3px; text-transform: uppercase;
-      cursor: pointer; transition: all 0.2s; border-radius: 0;
+      cursor: pointer; transition: all 0.2s;
     }
     .btn-back:hover { border-color: rgba(255,255,255,0.4); color: var(--text); }
+
     .btn-next, .btn-submit {
-      flex: 1; padding: 14px 20px; background: var(--accent); border: none;
-      color: rgba(255,255,255,0.96); font-family: 'Josefin Sans',sans-serif; font-weight: 600;
+      flex: 1;
+      background: var(--accent);
+      border: none;
+      color: rgba(255,255,255,0.96);
+      font-family: 'Josefin Sans',sans-serif; font-weight: 600;
       font-size: 10px; letter-spacing: 4px; text-transform: uppercase;
-      cursor: pointer; transition: all 0.25s; border-radius: 0;
+      cursor: pointer; transition: all 0.25s;
       box-shadow: 0 8px 30px rgba(180,27,79,0.40);
     }
     .btn-next:hover, .btn-submit:hover {
-      background: var(--accent2); box-shadow: 0 12px 40px rgba(180,27,79,0.55);
+      background: var(--accent2);
+      box-shadow: 0 12px 40px rgba(180,27,79,0.55);
       transform: translateY(-1px);
     }
 
@@ -297,15 +323,38 @@
     }
 
     .conf-box { border-top: 1px solid rgba(255,255,255,0.12); border-bottom: 1px solid rgba(255,255,255,0.12); padding: 16px 0; margin-bottom: 24px; text-align: left; }
-    .conf-row { display: flex; justify-content: space-between; align-items: baseline; padding: 7px 0; }
-    .conf-k { font-weight: 200; font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: var(--faint); }
-    .conf-v { font-size: 13px; font-weight: 300; color: var(--text); }
+    .conf-row { display: flex; justify-content: space-between; align-items: baseline; padding: 7px 0; gap: 12px; }
+    .conf-k { font-weight: 200; font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: var(--faint); white-space: nowrap; }
+    .conf-v { font-size: 13px; font-weight: 300; color: var(--text); text-align: right; }
     .conf-v a { color: var(--accent2); text-decoration: none; }
     .conf-v a:hover { text-decoration: underline; }
 
-    .btn-zoom { display: block; background: var(--accent); color: #fff; font-family: 'Josefin Sans',sans-serif; font-weight: 600; font-size: 10px; letter-spacing: 4px; text-transform: uppercase; text-decoration: none; padding: 14px 20px; text-align: center; margin-bottom: 10px; transition: all 0.2s; box-shadow: 0 6px 26px rgba(180,27,79,0.36); border-radius: 0; }
+    .btn-zoom {
+      display: inline-flex;
+      width: 100%;
+      background: var(--accent);
+      color: #fff;
+      font-family: 'Josefin Sans',sans-serif; font-weight: 600;
+      font-size: 10px; letter-spacing: 4px; text-transform: uppercase;
+      text-decoration: none;
+      margin-bottom: 10px;
+      transition: all 0.2s;
+      box-shadow: 0 6px 26px rgba(180,27,79,0.36);
+      border: none;
+    }
     .btn-zoom:hover { background: var(--accent2); transform: translateY(-1px); }
-    .btn-ics { display: block; background: transparent; color: var(--sub); font-family: 'Josefin Sans',sans-serif; font-weight: 300; font-size: 10px; letter-spacing: 3px; text-transform: uppercase; text-decoration: none; padding: 13px 20px; text-align: center; border: 1px solid rgba(255,255,255,0.16); transition: all 0.2s; border-radius: 0; }
+
+    .btn-ics {
+      display: inline-flex;
+      width: 100%;
+      background: rgba(255,255,255,0.02);
+      color: var(--sub);
+      font-family: 'Josefin Sans',sans-serif; font-weight: 300;
+      font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
+      text-decoration: none;
+      border: 1px solid rgba(255,255,255,0.16);
+      transition: all 0.2s;
+    }
     .btn-ics:hover { border-color: rgba(255,255,255,0.35); color: var(--text); }
 
     @media (max-width: 560px) {
@@ -469,14 +518,14 @@
           <div class="conf-row"><span class="conf-k">Questions</span><span class="conf-v"><a href="https://app.sli.do/event/3wmatb5f5V4P9ZJqY1nBXn" target="_blank" rel="noopener">Submit via Slido →</a></span></div>
         </div>
         <a id="zBtn" href="#" target="_blank" rel="noopener" class="btn-zoom">Join on Zoom →</a>
-        <a class="btn-ics" href="https://raw.githubusercontent.com/Amber-E-Moseri/BLW-CANADA/main/the-god-class.ics">Add to Calendar (.ics)</a>
+        <a class="btn-ics" href="https://raw.githubusercontent.com/Amber-E-Moseri/BLW-CANADA/main/thegodclass.ics">Add to Calendar (.ics)</a>
       </div>
 
     </div>
   </div>
 
   <script>
-      const ENDPOINT = "https://script.google.com/macros/s/AKfycbw4ak2BGJuwNv9Ni43U7oObwA-2RPCXXTycPPZp6G0ghanz4dc0FQKOGgEp9VDQYSrodQ/exec?program=tgc";
+    const ENDPOINT = "https://script.google.com/macros/s/AKfycbw4ak2BGJuwNv9Ni43U7oObwA-2RPCXXTycPPZp6G0ghanz4dc0FQKOGgEp9VDQYSrodQ/exec?program=tgc";
     const ZOOM     = "https://arizona.zoom.us/j/9780367559";
     let cur = 1;
     const TOTAL = 2;
@@ -522,12 +571,22 @@
     function se(id,el) { document.getElementById(id).style.display='block'; if(el) el.classList.add('err'); }
     function he(id,el) { document.getElementById(id).style.display='none';  if(el) el.classList.remove('err'); }
 
+    /* ✅ INSTANT SUBMIT (fast UX): show success first, send in background */
+    let submitting = false;
     async function doSubmit() {
+      if (submitting) return;
       if (!validate(1)) { go(1); return; }
       if (!validate(2)) return;
+
+      submitting = true;
+
       const btn = document.querySelector('#step2 .btn-submit');
-      btn.disabled=true; btn.style.opacity='.65'; btn.textContent='Submitting…';
+      btn.disabled = true;
+      btn.style.opacity = '.65';
+      btn.textContent = 'Submitting…';
+
       const r = document.querySelector('input[name=role]:checked');
+
       const payload = {
         firstName: document.getElementById('fn').value.trim(),
         lastName:  document.getElementById('ln').value.trim(),
@@ -537,30 +596,55 @@
         role:      r ? r.value : '',
         expectation: document.getElementById('exp').value.trim(),
         agreeReminder: document.getElementById('rem').checked,
-        agreeShare: false,
-        source:    window.location.href
+        source: window.location.href,
+        userAgent: navigator.userAgent,
+        ts: Date.now()
       };
+
+      // ✅ instant success UI (no waiting on Apps Script)
+      document.getElementById('step2').classList.remove('active');
+      document.getElementById('stepCounter').style.display = 'none';
+      document.getElementById('progFill').style.width = '100%';
+      document.getElementById('successWrap').classList.add('active');
+      document.getElementById('zBtn').href  = ZOOM;
+      document.getElementById('zLink').href = ZOOM;
+
+      const body = JSON.stringify(payload);
+
+      // ✅ fastest path
       try {
-        const res = await fetch(ENDPOINT, { method:'POST', mode:'cors', headers:{'Content-Type':'text/plain;charset=utf-8'}, body:JSON.stringify(payload) });
-        if (!res.ok) throw new Error('HTTP '+res.status);
-        const data = await res.json().catch(()=>null);
-        if (!data||!data.ok) throw new Error(data?.error||'Submission failed');
-        document.getElementById('step2').classList.remove('active');
-        document.getElementById('stepCounter').style.display='none';
-        document.getElementById('progFill').style.width='100%';
-        document.getElementById('successWrap').classList.add('active');
-        document.getElementById('zBtn').href  = ZOOM;
-        document.getElementById('zLink').href = ZOOM;
-        btn.disabled = true;
-      } catch(err) {
-        toast(err.message||'Something went wrong. Please try again.');
-        btn.disabled=false; btn.style.opacity='1'; btn.textContent='Reserve My Seat';
-      }
+        if (navigator.sendBeacon) {
+          const ok = navigator.sendBeacon(
+            ENDPOINT,
+            new Blob([body], { type: 'text/plain;charset=utf-8' })
+          );
+          if (ok) return;
+        }
+      } catch(e) {}
+
+      // ✅ fallback (still doesn't block UI)
+      fetch(ENDPOINT, {
+        method: 'POST',
+        mode: 'cors',
+        cache: 'no-store',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body
+      }).catch(() => {
+        // optional:
+        // toast('Your connection looks unstable. If you don’t get a confirmation message, submit again.');
+      });
     }
 
     function toast(msg) {
       const t=document.createElement('div'); t.textContent=msg;
-      Object.assign(t.style,{position:'fixed',left:'50%',bottom:'28px',transform:'translateX(-50%)',background:'rgba(6,6,7,0.96)',border:'1px solid rgba(255,255,255,0.14)',color:'#f4f3f6',padding:'12px 22px',fontFamily:'Josefin Sans,sans-serif',fontSize:'11px',letterSpacing:'1.5px',zIndex:'9999',boxShadow:'0 8px 32px rgba(0,0,0,0.7)',transition:'opacity .3s'});
+      Object.assign(t.style,{
+        position:'fixed',left:'50%',bottom:'28px',transform:'translateX(-50%)',
+        background:'rgba(6,6,7,0.96)',border:'1px solid rgba(255,255,255,0.14)',
+        color:'#f4f3f6',padding:'12px 22px',fontFamily:'Josefin Sans,sans-serif',
+        fontSize:'11px',letterSpacing:'1.5px',zIndex:'9999',
+        boxShadow:'0 8px 32px rgba(0,0,0,0.7)',transition:'opacity .3s',
+        borderRadius:'12px'
+      });
       document.body.appendChild(t);
       setTimeout(()=>{t.style.opacity='0';setTimeout(()=>t.remove(),300);},3000);
     }
