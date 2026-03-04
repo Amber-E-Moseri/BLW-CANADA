@@ -44,7 +44,7 @@
       background-repeat: repeat;
     }
 
-    /* chrome orbs — corner swooshes like the flyer rings */
+    /* chrome orbs */
     .orb { position: fixed; pointer-events: none; z-index: 0; border-radius: 50%; }
     .orb-tl {
       width: 380px; height: 380px; top: -110px; right: -90px;
@@ -118,40 +118,48 @@
       color: var(--text);
       display: block;
       letter-spacing: 2px;
-      margin-bottom: 28px;
+      margin-bottom: 18px;
     }
 
-    /* date + time chips — matching flyer pill cards */
-    .chips {
-      display: flex;
-      gap: 16px;
-      justify-content: center;
-      margin: 8px 0 30px;
+    /* ✅ EQUAL DATE/TIME CHIPS */
+    .chips{
+      display:flex;
+      gap:16px;
+      justify-content:center;
+      align-items:stretch;   /* same height */
+      margin: 8px auto 26px;
+      width: 100%;
+      max-width: 520px;
     }
-    .chip {
-      min-width: 220px;
-      padding: 14px 20px;
+    .chip{
+      flex:1;                /* same width */
+      width:0;               /* prevents content forcing width */
+      min-width:0;           /* override previous min-width */
+      padding: 14px 16px;
       background: rgba(255,255,255,0.88);
       border: 2px solid rgba(30,28,50,0.72);
       border-radius: 10px;
       box-shadow: 0 6px 0 rgba(107,106,154,0.75);
       text-align: center;
+
+      display:flex;
+      align-items:center;
+      justify-content:center;
+
       font-family: 'Josefin Sans', sans-serif;
       font-weight: 400;
       font-size: 18px;
       letter-spacing: 1px;
       color: #6b6a9a;
+      line-height: 1.1;
     }
     @media (max-width: 600px) {
-      .chips { flex-direction: column; align-items: center; }
-      .chip { min-width: min(300px, 88vw); }
+      .chips { flex-direction: column; max-width: min(360px, 88vw); }
+      .chip  { width: 100%; }
     }
 
     /* verse */
-    .verse-wrap {
-      text-align: center;
-      margin-bottom: 36px;
-    }
+    .verse-wrap { text-align: center; margin-bottom: 32px; }
     .verse-ref {
       font-weight: 200; font-size: 9px; letter-spacing: 4px;
       text-transform: uppercase; color: var(--faint); margin-bottom: 8px;
@@ -168,18 +176,14 @@
       flex-wrap: wrap;
       justify-content: center;
       gap: 6px 18px;
-      margin-bottom: 40px;
+      margin-bottom: 34px;
     }
-    .detail-item {
-      display: flex; align-items: baseline; gap: 6px;
-    }
+    .detail-item { display: flex; align-items: baseline; gap: 6px; }
     .detail-key {
       font-weight: 200; font-size: 9px; letter-spacing: 3px;
       text-transform: uppercase; color: var(--faint);
     }
-    .detail-val {
-      font-family: 'EB Garamond', serif; font-size: 14px; color: var(--text);
-    }
+    .detail-val { font-family: 'EB Garamond', serif; font-size: 14px; color: var(--text); }
     .detail-val a { color: var(--blue-mid); text-decoration: none; font-style: italic; }
     .detail-val a:hover { text-decoration: underline; }
 
@@ -188,7 +192,7 @@
       width: 100%; max-width: 500px;
       height: 1px;
       background: linear-gradient(90deg, transparent, rgba(140,138,175,0.45), transparent);
-      margin-bottom: 40px;
+      margin-bottom: 34px;
     }
 
     /* ── FORM CARD ── */
@@ -205,7 +209,7 @@
     }
 
     /* step counter */
-    .step-counter { display: flex; align-items: center; gap: 6px; margin-bottom: 28px; }
+    .step-counter { display: flex; align-items: center; gap: 6px; margin-bottom: 26px; }
     .s-num {
       font-weight: 200; font-size: 10px; letter-spacing: 1px; color: var(--faint);
       width: 22px; height: 22px; border: 1px solid var(--stroke); border-radius: 50%;
@@ -216,7 +220,7 @@
     .s-dash { flex: 1; height: 1px; background: var(--stroke); max-width: 32px; transition: background 0.4s; }
     .s-dash.done { background: var(--blue-mid); }
 
-    .prog { height: 1px; background: rgba(180,178,200,0.25); margin-bottom: 28px; position: relative; overflow: visible; }
+    .prog { height: 1px; background: rgba(180,178,200,0.25); margin-bottom: 26px; position: relative; overflow: visible; }
     .prog-fill {
       height: 1px;
       background: linear-gradient(90deg, var(--blue) 0%, var(--blue-deep) 100%);
@@ -234,7 +238,7 @@
     }
     .step-desc {
       font-weight: 200; font-size: 11px; letter-spacing: 1.5px;
-      color: var(--faint); margin-bottom: 24px;
+      color: var(--faint); margin-bottom: 22px;
     }
 
     .f-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
@@ -262,18 +266,24 @@
       font-size: 10px; color: var(--faint); pointer-events: none;
     }
 
-    /* role grid — 6-col so bottom 2 cards are equal width */
-    .role-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; margin-bottom: 16px; }
+    /* role grid */
+    .role-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; margin-bottom: 14px; }
     .role-grid .rc:nth-child(1) { grid-column: span 2; }
     .role-grid .rc:nth-child(2) { grid-column: span 2; }
     .role-grid .rc:nth-child(3) { grid-column: span 2; }
     .role-grid .rc:nth-child(4) { grid-column: span 3; }
     .role-grid .rc:nth-child(5) { grid-column: span 3; }
+
     .rc { position: relative; cursor: pointer; }
     .rc input[type=radio] { position: absolute; opacity: 0; width: 0; height: 0; }
     .rc-inner {
-      border: 1px solid var(--stroke); padding: 14px 8px 12px; text-align: center;
-      transition: all 0.2s; cursor: pointer; background: rgba(255,255,255,0.3);
+      border: 1px solid var(--stroke);
+      padding: 14px 8px 12px;
+      text-align: center;
+      transition: all 0.2s;
+      cursor: pointer;
+      background: rgba(255,255,255,0.3);
+      height: 100%;
     }
     .rc-inner:hover { border-color: var(--blue); background: rgba(139,139,181,0.07); }
     .rc input:checked + .rc-inner { border-color: var(--blue-mid); background: rgba(107,106,154,0.10); }
@@ -298,7 +308,7 @@
     .field-error { font-weight: 300; font-size: 9px; letter-spacing: 1.5px; color: #b07080; margin-top: 4px; display: none; }
     input.err, select.err { border-bottom-color: #b07080 !important; }
 
-    .btn-row { display: flex; gap: 10px; margin-top: 26px; }
+    .btn-row { display: flex; gap: 10px; margin-top: 22px; }
     .btn-back {
       padding: 12px 16px; background: transparent; border: 1px solid var(--stroke);
       color: var(--faint); font-family: 'Josefin Sans',sans-serif; font-weight: 200;
@@ -326,13 +336,13 @@
     @keyframes popIn { from { transform:scale(0); opacity:0; } to { transform:scale(1); opacity:1; } }
     .success-hed {
       font-family: 'Great Vibes', cursive; font-size: 48px;
-      color: var(--blue-deep); margin-bottom: 24px; line-height: 1.1;
+      color: var(--blue-deep); margin-bottom: 18px; line-height: 1.1;
     }
 
-    .conf-box { border-top: 1px solid rgba(180,178,200,0.35); border-bottom: 1px solid rgba(180,178,200,0.35); padding: 16px 0; margin-bottom: 24px; text-align: left; }
-    .conf-row { display: flex; justify-content: space-between; align-items: baseline; padding: 6px 0; }
-    .conf-k { font-weight: 200; font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: var(--faint); }
-    .conf-v { font-family: 'EB Garamond',serif; font-size: 14px; color: var(--text); }
+    .conf-box { border-top: 1px solid rgba(180,178,200,0.35); border-bottom: 1px solid rgba(180,178,200,0.35); padding: 16px 0; margin-bottom: 18px; text-align: left; }
+    .conf-row { display: flex; justify-content: space-between; align-items: baseline; padding: 6px 0; gap: 12px; }
+    .conf-k { font-weight: 200; font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: var(--faint); white-space: nowrap; }
+    .conf-v { font-family: 'EB Garamond',serif; font-size: 14px; color: var(--text); text-align: right; }
     .conf-v a { color: var(--blue-mid); text-decoration: none; font-style: italic; }
     .conf-v a:hover { text-decoration: underline; }
 
@@ -506,7 +516,7 @@
           <div class="conf-row"><span class="conf-k">Questions</span><span class="conf-v"><a href="https://app.sli.do/event/2vjEHhy6Qi1XYntrUo9fGf/live/questions" target="_blank" rel="noopener">Submit via Slido →</a></span></div>
         </div>
         <a id="zBtn" href="#" target="_blank" rel="noopener" class="btn-zoom">Join on Zoom →</a>
-        <a class="btn-ics" href="https://raw.githubusercontent.com/Amber-E-Moseri/playing-money-game/main/delightfully-his.ics">Add to Calendar (.ics)</a>
+        <a class="btn-ics" href="https://raw.githubusercontent.com/Amber-E-Moseri/BLW-CANADA/main/delightfully-his.ics">Add to Calendar (.ics)</a>
       </div>
 
     </div>
@@ -559,44 +569,72 @@
     function se(id,el) { document.getElementById(id).style.display='block'; if(el) el.classList.add('err'); }
     function he(id,el) { document.getElementById(id).style.display='none';  if(el) el.classList.remove('err'); }
 
+    // ✅ Faster + safer submit (timeout + text->json)
     async function doSubmit() {
-      if (!validate(1)) { go(1); return; }
-      if (!validate(2)) return;
-      const btn = document.querySelector('#step2 .btn-submit');
-      btn.disabled=true; btn.style.opacity='.65'; btn.textContent='Submitting…';
-      const r = document.querySelector('input[name=role]:checked');
-      const payload = {
-        firstName: document.getElementById('fn').value.trim(),
-        lastName:  document.getElementById('ln').value.trim(),
-        email:     document.getElementById('em').value.trim(),
-        phone:     document.getElementById('ph').value.trim(),
-        subgroup:  document.getElementById('sg').value,
-        role:      r ? r.value : '',
-        expectation: document.getElementById('exp').value.trim(),
-        agreeReminder: document.getElementById('rem').checked,
-        source:    window.location.href
-      };
-      try {
-        const res = await fetch(ENDPOINT, { method:'POST', mode:'cors', headers:{'Content-Type':'text/plain;charset=utf-8'}, body:JSON.stringify(payload) });
-        if (!res.ok) throw new Error('HTTP '+res.status);
-        const data = await res.json().catch(()=>null);
-        if (!data||!data.ok) throw new Error(data?.error||'Submission failed');
-        document.getElementById('step2').classList.remove('active');
-        document.getElementById('stepCounter').style.display='none';
-        document.getElementById('progFill').style.width='100%';
-        document.getElementById('successWrap').classList.add('active');
-        document.getElementById('zBtn').href  = ZOOM;
-        document.getElementById('zLink').href = ZOOM;
-        btn.disabled = true;
-      } catch(err) {
-        toast(err.message||'Something went wrong. Please try again.');
-        btn.disabled=false; btn.style.opacity='1'; btn.textContent='Reserve My Seat';
-      }
-    }
+  if (!validate(1)) { go(1); return; }
+  if (!validate(2)) return;
 
+  const btn = document.querySelector('#step2 .btn-submit');
+  btn.disabled = true;
+  btn.style.opacity = '.65';
+  btn.textContent = 'Submitting…';
+
+  const r = document.querySelector('input[name=role]:checked');
+
+  const payload = {
+    firstName: document.getElementById('fn').value.trim(),
+    lastName:  document.getElementById('ln').value.trim(),
+    email:     document.getElementById('em').value.trim(),
+    phone:     document.getElementById('ph').value.trim(),
+    subgroup:  document.getElementById('sg').value,
+    role:      r ? r.value : '',
+    expectation: document.getElementById('exp').value.trim(),
+    agreeReminder: document.getElementById('rem').checked,
+    source: window.location.href,
+    userAgent: navigator.userAgent,
+    ts: Date.now()
+  };
+
+  // ✅ instant success UI (no waiting)
+  document.getElementById('step2').classList.remove('active');
+  document.getElementById('stepCounter').style.display = 'none';
+  document.getElementById('progFill').style.width = '100%';
+  document.getElementById('successWrap').classList.add('active');
+  document.getElementById('zBtn').href  = ZOOM;
+  document.getElementById('zLink').href = ZOOM;
+
+  // ✅ background send to your endpoint
+  const body = JSON.stringify(payload);
+
+  // fastest path
+  if (navigator.sendBeacon) {
+    const ok = navigator.sendBeacon(
+      ENDPOINT,
+      new Blob([body], { type: 'text/plain;charset=utf-8' })
+    );
+    if (ok) return;
+  }
+
+  // fallback (still not blocking UI)
+  fetch(ENDPOINT, {
+    method: 'POST',
+    mode: 'cors',
+    cache: 'no-store',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body
+  }).catch(() => {
+    // optional: show a small note, or queue retry
+  });
+}
     function toast(msg) {
       const t=document.createElement('div'); t.textContent=msg;
-      Object.assign(t.style,{position:'fixed',left:'50%',bottom:'28px',transform:'translateX(-50%)',background:'rgba(240,239,246,0.96)',border:'1px solid rgba(160,158,190,0.4)',color:'#4a4870',padding:'12px 22px',fontFamily:'Josefin Sans,sans-serif',fontSize:'11px',letterSpacing:'1.5px',zIndex:'9999',boxShadow:'0 8px 32px rgba(74,72,112,0.14)',transition:'opacity .3s'});
+      Object.assign(t.style,{
+        position:'fixed',left:'50%',bottom:'28px',transform:'translateX(-50%)',
+        background:'rgba(240,239,246,0.96)',border:'1px solid rgba(160,158,190,0.4)',
+        color:'#4a4870',padding:'12px 22px',fontFamily:'Josefin Sans,sans-serif',
+        fontSize:'11px',letterSpacing:'1.5px',zIndex:'9999',
+        boxShadow:'0 8px 32px rgba(74,72,112,0.14)',transition:'opacity .3s'
+      });
       document.body.appendChild(t);
       setTimeout(()=>{t.style.opacity='0';setTimeout(()=>t.remove(),300);},3000);
     }
