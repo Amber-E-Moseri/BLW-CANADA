@@ -15,6 +15,19 @@ SUMMARY:The God Class – BLW Canada
 DESCRIPTION:BLW Canada presents "The God Class".\n\nSaturday, March 7, 2026 at 10:00 PM CST.\n\nJoin us on Zoom:\nhttps://arizona.zoom.us/j/9780367559
 LOCATION:https://arizona.zoom.us/j/9780367559
 STATUS:CONFIRMED
+
+BEGIN:VALARM
+TRIGGER:-PT1H
+ACTION:DISPLAY
+DESCRIPTION:Reminder: The God Class starts in 1 hour
+END:VALARM
+
+BEGIN:VALARM
+TRIGGER:-PT10M
+ACTION:DISPLAY
+DESCRIPTION:Reminder: The God Class starts in 10 minutes
+END:VALARM
+
 END:VEVENT
 
 END:VCALENDAR
