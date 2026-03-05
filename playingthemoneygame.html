@@ -280,6 +280,62 @@
     }
     .highlight-text { font-size: 13.5px; color: var(--text); line-height: 1.65; font-weight: 600; }
 
+    /* ── Mobile modal for declarations ── */
+    .affirm-modal-backdrop {
+      display: none;
+      position: fixed; inset: 0; z-index: 200;
+      background: rgba(6,16,10,0.88);
+      backdrop-filter: blur(6px);
+      align-items: flex-end;
+      justify-content: center;
+    }
+    .affirm-modal-backdrop.open { display: flex; animation: backdropIn .25s ease; }
+    @keyframes backdropIn { from{opacity:0} to{opacity:1} }
+
+    .affirm-modal {
+      background: #0e2018;
+      border: 1px solid var(--border-bright);
+      border-bottom: none;
+      border-radius: 20px 20px 0 0;
+      padding: 24px 20px 40px;
+      width: 100%;
+      max-height: 82vh;
+      overflow-y: auto;
+      animation: slideUp .3s cubic-bezier(.32,1.2,.5,1);
+    }
+    @keyframes slideUp { from{transform:translateY(100%)} to{transform:translateY(0)} }
+
+    .affirm-modal-top {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 16px;
+    }
+    .affirm-modal-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 800; font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
+      color: var(--green);
+    }
+    .affirm-modal-close {
+      background: none; border: 1px solid var(--border);
+      border-radius: 7px; color: var(--muted);
+      font-size: 9px; font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 800; letter-spacing: 1px; text-transform: uppercase;
+      padding: 5px 10px; cursor: pointer; transition: all .2s;
+    }
+    .affirm-modal-close:hover { border-color: var(--green); color: var(--green); }
+    .affirm-modal-text {
+      font-size: 15px; font-weight: 600; color: var(--text);
+      line-height: 1.8; margin-bottom: 18px;
+    }
+    .affirm-modal-copy {
+      padding: 10px 22px;
+      background: linear-gradient(135deg, var(--green), var(--green-dim));
+      border: none; border-radius: 9px; color: #0a1a0e;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 900; font-size: 12px; letter-spacing: 2px; text-transform: uppercase;
+      cursor: pointer; transition: all .2s; width: 100%;
+    }
+    .affirm-modal-copy:hover { opacity: .9; }
+
     /* Toast */
     #toast {
       position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%);
@@ -375,6 +431,18 @@
 
 
 
+</div>
+
+<!-- DECLARATION MODAL (mobile) -->
+<div class="affirm-modal-backdrop" id="affirmModal">
+  <div class="affirm-modal">
+    <div class="affirm-modal-top">
+      <span class="affirm-modal-label" id="modalLabel">Declaration</span>
+      <button class="affirm-modal-close" onclick="closeAffirmModal()">Close ✕</button>
+    </div>
+    <div class="affirm-modal-text" id="modalText"></div>
+    <button class="affirm-modal-copy" onclick="copyModalText()">Copy Declaration</button>
+  </div>
 </div>
 
 <script>
@@ -537,10 +605,40 @@
 
   // ── Declarations ────────────────────────────────────────────────────────
   function toggleExpand(btn) {
-    const item = btn.closest('.affirm-item');
-    const expanded = item.classList.toggle('expanded');
-    btn.textContent = expanded ? 'Collapse' : 'Expand';
+    if (window.innerWidth <= 640) {
+      // mobile: open modal
+      const text = btn.closest('.affirm-main').querySelector('.affirm-text').innerText.trim();
+      const num  = btn.closest('.affirm-main').querySelector('.affirm-num').innerText.trim();
+      document.getElementById('modalLabel').textContent = 'Declaration ' + num;
+      document.getElementById('modalText').textContent  = text;
+      document.getElementById('affirmModal').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    } else {
+      // desktop: inline expand
+      const item = btn.closest('.affirm-item');
+      const expanded = item.classList.toggle('expanded');
+      btn.textContent = expanded ? 'Collapse' : 'Expand';
+    }
   }
+
+  function closeAffirmModal() {
+    document.getElementById('affirmModal').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function copyModalText() {
+    const text = document.getElementById('modalText').textContent.trim();
+    navigator.clipboard.writeText(text).then(() => {
+      const btn = document.querySelector('.affirm-modal-copy');
+      btn.textContent = '✓ Copied!';
+      setTimeout(() => { btn.textContent = 'Copy Declaration'; }, 2200);
+    });
+  }
+
+  // close modal on backdrop tap
+  document.getElementById('affirmModal').addEventListener('click', function(e) {
+    if (e.target === this) closeAffirmModal();
+  });
 
   function copyAffirm(btn) {
     const text = btn.closest('.affirm-main').querySelector('.affirm-text').innerText.trim();
