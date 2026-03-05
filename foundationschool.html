@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Foundation School – BLW Canada</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Josefin+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --purple: #4b1f8a;
+  --gold:   #f5a623;
+  --rose:   #8b1c44;
+  --bg:     #0d0a10;
+  --card:   rgba(255,255,255,0.04);
+  --border: rgba(255,255,255,0.10);
+}
+*{ box-sizing:border-box; margin:0; padding:0; }
+
+body{
+  background: var(--bg);
+  color: #fff;
+  font-family: "Josefin Sans", sans-serif;
+  padding-bottom: 80px;
+  background-image:
+    radial-gradient(ellipse 70% 35% at 50% 0%, rgba(75,31,138,0.22) 0%, transparent 65%),
+    radial-gradient(ellipse 40% 25% at 90% 90%, rgba(139,28,68,0.12) 0%, transparent 60%);
+}
+
+nav{
+  display:flex; align-items:center; justify-content:space-between;
+  padding: 20px 40px;
+  border-bottom: 1px solid var(--border);
+}
+.nav-logo img{
+  height: 48px;
+  filter: drop-shadow(0 0 10px rgba(139,28,68,0.4));
+}
+.nav-back{
+  font-size:13px; letter-spacing:1.5px; text-transform:uppercase;
+  color: rgba(255,255,255,0.55); text-decoration:none;
+  transition: color .2s;
+}
+.nav-back:hover{ color:#fff; }
+.nav-back::before{ content:"← "; }
+
+.hero{
+  text-align:center;
+  padding: 70px 20px 60px;
+}
+.hero-eyebrow{
+  font-size:12px; letter-spacing:4px; text-transform:uppercase;
+  color: var(--gold); margin-bottom:18px;
+  animation: fadeUp .8s ease both;
+}
+.hero h1{
+  font-family:"Cinzel",serif;
+  font-size: clamp(42px,8vw,80px);
+  line-height:1.05; letter-spacing:2px; margin-bottom:6px;
+  animation: fadeUp .8s ease 0.1s both;
+}
+.hero h1 span{
+  display:block;
+  background: linear-gradient(135deg, var(--gold), #ffcf6e);
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+.hero-sub{
+  margin-top:22px; font-size:17px; opacity:.65;
+  max-width:540px; margin-inline:auto; line-height:1.7;
+  animation: fadeUp .8s ease 0.2s both;
+}
+.hero-badge{
+  display:inline-block; margin-top:28px;
+  padding:10px 22px;
+  border:1px solid rgba(245,166,35,0.4);
+  border-radius:50px;
+  font-size:13px; letter-spacing:1.5px; text-transform:uppercase;
+  color: var(--gold);
+  animation: fadeUp .8s ease 0.3s both;
+}
+
+.section{ max-width:900px; margin-inline:auto; padding:0 24px; }
+.section-title{
+  font-family:"Cinzel",serif; font-size:22px; letter-spacing:1px;
+  margin-bottom:30px;
+  display:flex; align-items:center; gap:14px;
+}
+.section-title::after{
+  content:''; flex:1; height:1px;
+  background: linear-gradient(90deg, rgba(245,166,35,0.4), transparent);
+}
+
+.why{
+  background: rgba(75,31,138,0.12);
+  border: 1px solid rgba(75,31,138,0.35);
+  border-radius:20px; padding:40px 36px; margin-bottom:60px; text-align:center;
+}
+.why blockquote{
+  font-family:"Cinzel",serif;
+  font-size: clamp(20px,3.5vw,28px); line-height:1.5; color:#fff;
+  max-width:640px; margin-inline:auto;
+}
+.why blockquote em{ font-style:normal; color: var(--gold); }
+.why p{
+  margin-top:20px; opacity:.7; font-size:15px;
+  max-width:560px; margin-inline:auto; line-height:1.75;
+}
+
+.courses-grid{
+  display:grid; gap:16px; grid-template-columns:1fr; margin-bottom:60px;
+}
+@media(min-width:600px){ .courses-grid{ grid-template-columns:1fr 1fr; } }
+@media(min-width:860px){ .courses-grid{ grid-template-columns:1fr 1fr 1fr; } }
+
+.course-card{
+  background: var(--card); border: 1px solid var(--border);
+  border-radius:16px; padding:26px 22px;
+  display:flex; gap:16px; align-items:flex-start;
+  transition: transform .25s, border-color .25s, box-shadow .25s;
+}
+.course-card:hover{
+  transform:translateY(-4px);
+  border-color: rgba(245,166,35,0.35);
+  box-shadow: 0 12px 32px rgba(75,31,138,0.25);
+}
+.course-num{
+  flex-shrink:0; width:38px; height:38px; border-radius:50%;
+  border: 2px solid var(--gold);
+  display:flex; align-items:center; justify-content:center;
+  font-family:"Cinzel",serif; font-size:13px; color: var(--gold);
+}
+.course-info h3{ font-size:15px; font-weight:600; margin-bottom:6px; letter-spacing:.3px; }
+.course-info p{ font-size:13px; opacity:.65; line-height:1.6; }
+
+.experience{
+  background: linear-gradient(135deg, rgba(75,31,138,0.18), rgba(139,28,68,0.12));
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:20px; padding:40px 36px; margin-bottom:60px;
+  display:grid; gap:30px;
+}
+@media(min-width:650px){ .experience{ grid-template-columns:1fr 1fr; } }
+.exp-block h3{ font-family:"Cinzel",serif; font-size:18px; margin-bottom:14px; color: var(--gold); }
+.exp-block p{ font-size:14px; opacity:.7; line-height:1.75; }
+
+.contact-bar{
+  display:flex; flex-wrap:wrap; gap:20px; justify-content:center; margin-bottom:60px;
+}
+.contact-item{
+  display:flex; align-items:center; gap:10px;
+  background: var(--card); border:1px solid var(--border);
+  border-radius:12px; padding:14px 22px;
+  font-size:14px; text-decoration:none; color:#fff;
+  transition: border-color .2s, transform .2s;
+}
+.contact-item:hover{ border-color: rgba(245,166,35,0.4); transform:translateY(-2px); }
+.contact-icon{
+  width:32px; height:32px; border-radius:50%;
+  background: rgba(245,166,35,0.15);
+  display:flex; align-items:center; justify-content:center; font-size:15px;
+}
+.contact-label{ opacity:.55; font-size:11px; letter-spacing:1px; text-transform:uppercase; display:block; margin-bottom:2px; }
+.contact-value{ font-weight:600; }
+
+/* ── CTA ── */
+.cta-wrap{ text-align:center; }
+.cta-wrap p{ opacity:.6; font-size:14px; margin-bottom:20px; letter-spacing:.5px; }
+.btn-enroll{
+  display:inline-block; padding:16px 44px;
+  background: linear-gradient(135deg, var(--purple), #7a35c8);
+  color:#fff; border:none; border-radius:50px;
+  font-family:"Cinzel",serif; font-size:16px; letter-spacing:2px;
+  box-shadow: 0 6px 28px rgba(75,31,138,0.45);
+  transition:.25s; cursor:pointer;
+}
+.btn-enroll:hover{
+  background: linear-gradient(135deg, #5e28a8, #8f40d8);
+  box-shadow: 0 10px 36px rgba(75,31,138,0.65);
+  transform:translateY(-2px);
+}
+
+/* ── MODAL ── */
+.modal-overlay{
+  display:none; position:fixed; inset:0;
+  background: rgba(0,0,0,0.78);
+  backdrop-filter: blur(8px);
+  z-index:100; align-items:center; justify-content:center; padding:20px;
+}
+.modal-overlay.open{ display:flex; }
+.modal{
+  background: #180e22;
+  border: 1px solid rgba(255,255,255,0.13);
+  border-radius:24px; padding:48px 36px 40px;
+  max-width:460px; width:100%; text-align:center;
+  animation: fadeUp .35s ease both; position:relative;
+}
+.modal-close{
+  position:absolute; top:16px; right:20px;
+  background:none; border:none; color:rgba(255,255,255,0.3);
+  font-size:24px; cursor:pointer; line-height:1; transition:color .2s;
+}
+.modal-close:hover{ color:#fff; }
+.modal h2{
+  font-family:"Cinzel",serif; font-size:20px; margin-bottom:10px; letter-spacing:1px;
+}
+.modal-divider{
+  width:36px; height:2px;
+  background: linear-gradient(90deg, var(--gold), #ffcf6e);
+  border-radius:2px; margin:0 auto 18px;
+}
+.modal p{ opacity:.6; font-size:14px; margin-bottom:30px; line-height:1.7; }
+.modal-options{ display:grid; gap:14px; }
+.modal-btn{
+  display:block; width:100%; padding:17px 20px;
+  border-radius:14px; text-decoration:none; color:#fff;
+  font-weight:600; font-size:13px; letter-spacing:1.5px; text-transform:uppercase;
+  transition:.22s; border:none; cursor:pointer;
+  text-align:center;
+}
+.modal-btn .btn-label{ display:block; margin-bottom:3px; }
+.modal-btn .btn-sub{ display:block; font-size:11px; opacity:.6; letter-spacing:.5px; text-transform:none; font-weight:400; }
+.modal-btn.central{
+  background: linear-gradient(135deg, var(--purple), #7a35c8);
+  box-shadow: 0 4px 18px rgba(75,31,138,0.4);
+}
+.modal-btn.central:hover{
+  background: linear-gradient(135deg, #5e28a8, #8f40d8);
+  transform:translateY(-2px); box-shadow: 0 8px 28px rgba(75,31,138,0.55);
+}
+.modal-btn.other{
+  background: linear-gradient(135deg, var(--rose), #b3255a);
+  box-shadow: 0 4px 18px rgba(139,28,68,0.4);
+}
+.modal-btn.other:hover{
+  background: linear-gradient(135deg, #a82254, #d43070);
+  transform:translateY(-2px); box-shadow: 0 8px 28px rgba(139,28,68,0.55);
+}
+
+footer{
+  text-align:center; margin-top:60px;
+  font-size:12px; opacity:.3; letter-spacing:2px; text-transform:uppercase;
+}
+
+@keyframes fadeUp{
+  from{ opacity:0; transform:translateY(20px); }
+  to  { opacity:1; transform:translateY(0); }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">
+    <img src="https://raw.githubusercontent.com/Amber-E-Moseri/playing-money-game/main/canada_sr.png"
+         alt="BLW Canada" onerror="this.style.display='none'">
+  </a>
+  <a href="index.html" class="nav-back">All Programs</a>
+</nav>
+
+<div class="hero">
+  <div class="hero-eyebrow">BLW Canada</div>
+  <h1>Foundation<span>School</span></h1>
+  <p class="hero-sub">A 6-week journey to help you truly understand who you are in Christ and how to live the victorious life God called you to.</p>
+  <div class="hero-badge">✅ Registration is now open!</div>
+</div>
+
+<div class="section">
+  <div class="section-title">Why Join</div>
+  <div class="why">
+    <blockquote>Building a <em>Rock Solid</em> Foundation in Christ</blockquote>
+    <p>It's more than just a class—it's a journey to discover your purpose, strengthen your walk with God, and become Rock Solid in your faith. You'll leave equipped, confident, and ready to make an impact wherever you go!</p>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">Course Overview</div>
+  <div class="courses-grid">
+    <div class="course-card">
+      <div class="course-num">01</div>
+      <div class="course-info">
+        <h3>New Creation</h3>
+        <p>Discover who you truly are in Christ and the powerful life He's called you to live.</p>
+      </div>
+    </div>
+    <div class="course-card">
+      <div class="course-num">02</div>
+      <div class="course-info">
+        <h3>The Holy Spirit</h3>
+        <p>Learn how to walk closely with the Holy Spirit and live a Spirit-led life every day.</p>
+      </div>
+    </div>
+    <div class="course-card">
+      <div class="course-num">03</div>
+      <div class="course-info">
+        <h3>Christian Doctrines</h3>
+        <p>Understand the core truths of God's Word that keep your faith strong and unshakable.</p>
+      </div>
+    </div>
+    <div class="course-card">
+      <div class="course-num">04</div>
+      <div class="course-info">
+        <h3>Evangelism &amp; Cell Ministry</h3>
+        <p>Share your faith confidently and make real impact through your cell group.</p>
+      </div>
+    </div>
+    <div class="course-card">
+      <div class="course-num">05</div>
+      <div class="course-info">
+        <h3>Christian Character</h3>
+        <p>Build the right habits, attitude, and lifestyle that reflect the nature of Christ in you.</p>
+      </div>
+    </div>
+    <div class="course-card">
+      <div class="course-num">06</div>
+      <div class="course-info">
+        <h3>Local Assembly &amp; Loveworld</h3>
+        <p>Learn how the local church functions within the larger Loveworld nation.</p>
+      </div>
+    </div>
+    <div class="course-card">
+      <div class="course-num">07</div>
+      <div class="course-info">
+        <h3>Technology for Growth</h3>
+        <p>Use digital tools, platforms, and media to strengthen your spiritual life.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">The Experience</div>
+  <div class="experience">
+    <div class="exp-block">
+      <h3>🎓 Fun &amp; Exciting</h3>
+      <p>Each week's online session is filled with interactive lessons, real-life discussions, and fun activities that make God's Word come alive! Access weekly quizzes, eBooks, sermon excerpts, and more through our Moodle dashboard.</p>
+    </div>
+    <div class="exp-block">
+      <h3>🎉 Graduation Ceremony</h3>
+      <p>We end with a special graduation ceremony to celebrate your commitment and growth in the Word. You'll leave equipped, confident, and ready to make an impact wherever you go!</p>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">Get In Touch</div>
+  <div class="contact-bar">
+    <a href="https://instagram.com/blwcanada" target="_blank" class="contact-item">
+      <div class="contact-icon">📸</div>
+      <div>
+        <span class="contact-label">Instagram</span>
+        <span class="contact-value">@blwcanada</span>
+      </div>
+    </a>
+    <a href="mailto:info@lwcanada.org" class="contact-item">
+      <div class="contact-icon">✉️</div>
+      <div>
+        <span class="contact-label">Email</span>
+        <span class="contact-value">info@lwcanada.org</span>
+      </div>
+    </a>
+  </div>
+</div>
+
+<div class="section">
+  <div class="cta-wrap">
+    <p>Register now and begin your journey.</p>
+    <button class="btn-enroll" onclick="document.getElementById('enrollModal').classList.add('open')">Enroll Now</button>
+  </div>
+</div>
+
+<footer>BLW Canada · Foundation School</footer>
+
+<!-- ENROLLMENT MODAL -->
+<div class="modal-overlay" id="enrollModal">
+  <div class="modal">
+    <button class="modal-close" onclick="document.getElementById('enrollModal').classList.remove('open')">×</button>
+    <h2>Choose Your Group</h2>
+    <div class="modal-divider"></div>
+    <p>Select the option that best describes your BLW Canada sub-group to be directed to the right registration.</p>
+    <div class="modal-options">
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSeKZYccT2uuG-y1xhz1WmKtP17XdzwK9knboKjoH8cIr2cFNQ/viewform"
+         target="_blank" class="modal-btn central">
+        <span class="btn-label">I'm in Central</span>
+        <span class="btn-sub">BLW Canada Central (York University)</span>
+      </a>
+      <a href="https://rocksolid.lwcanada.org/login/index.php"
+         target="_blank" class="modal-btn other">
+        <span class="btn-label">I'm not in Central</span>
+        <span class="btn-sub">All other BLW Canada sub-groups</span>
+      </a>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Close modal on overlay click
+  document.getElementById('enrollModal').addEventListener('click', function(e){
+    if(e.target === this) this.classList.remove('open');
+  });
+  // Close on Escape key
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape') document.getElementById('enrollModal').classList.remove('open');
+  });
+</script>
+
+</body>
+</html>
