@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Playing the Money Game — BLW Canada</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Bebas+Neue&family=Barlow:ital,wght@0,400;0,600;0,700;0,900;1,700&family=Barlow+Condensed:ital,wght@0,400;0,700;1,800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --green: #3ddc6e;
+      --green-bright: #5eff8a;
+      --green-dim: #28a84e;
+      --bg: #1a3022;
+      --bg2: #142619;
+      --surface: rgba(12,28,18,0.82);
+      --surface2: rgba(8,20,12,0.90);
+      --text: #f0faf2;
+      --muted: #a8ccb4;
+      --dimmer: #6b9c7c;
+      --gold: #ffd166;
+      --border: rgba(61,220,110,0.22);
+      --border-bright: rgba(61,220,110,0.45);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--bg);
+      /* rich green with subtle scratch texture using SVG data URI */
+      background-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E"),
+        radial-gradient(ellipse 80% 60% at 50% 0%, #245c38 0%, transparent 65%),
+        radial-gradient(ellipse 60% 80% at 100% 100%, #1a3a24 0%, transparent 60%);
+      color: var(--text);
+      font-family: 'Barlow', sans-serif;
+      min-height: 100vh;
+    }
+
+    /* scratch lines overlay */
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background-image:
+        repeating-linear-gradient(
+          118deg,
+          transparent 0px, transparent 38px,
+          rgba(255,255,255,0.018) 38px, rgba(255,255,255,0.018) 39px
+        ),
+        repeating-linear-gradient(
+          62deg,
+          transparent 0px, transparent 55px,
+          rgba(255,255,255,0.012) 55px, rgba(255,255,255,0.012) 56px
+        );
+    }
+
+    /* money-bill border strip at very bottom */
+    body::after {
+      content: '';
+      position: fixed; bottom: 0; left: 0; right: 0; height: 6px; z-index: 100;
+      background: repeating-linear-gradient(90deg,
+        var(--green-dim) 0px, var(--green-dim) 18px,
+        var(--bg2) 18px, var(--bg2) 20px
+      );
+      opacity: 0.55;
+    }
+
+    .wrap {
+      position: relative; z-index: 1;
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 0 18px 100px;
+    }
+
+    /* ── Header ── */
+    header {
+      padding: 48px 0 28px;
+      text-align: center;
+    }
+    .blw-tag {
+      display: inline-flex; align-items: center; gap: 7px;
+      background: rgba(61,220,110,0.10);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 5px 14px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 800; font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
+      color: var(--green); margin-bottom: 20px;
+    }
+    .blw-tag::before {
+      content: ''; width: 6px; height: 6px; border-radius: 50%;
+      background: var(--green);
+      animation: blink 2s ease-in-out infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+    .hero-img {
+      width: 100%; max-width: 600px;
+      margin: 0 auto 16px;
+      display: block;
+      filter: drop-shadow(0 18px 50px rgba(0,0,0,0.55));
+      border-radius: 16px;
+    }
+    .hero-meta {
+      font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
+      color: var(--green); font-weight: 800; margin-bottom: 10px;
+    }
+    .hero-desc {
+      font-size: 14px; color: var(--muted); line-height: 1.75; max-width: 540px; margin: 0 auto;
+    }
+
+    /* ── Section wrapper ── */
+    .section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px 22px;
+      margin-bottom: 14px;
+      backdrop-filter: blur(6px);
+    }
+    .section:hover { border-color: var(--border-bright); }
+
+    .eyebrow {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 800; font-size: 10px; letter-spacing: 3.5px; text-transform: uppercase;
+      color: var(--green); margin-bottom: 6px;
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 24px; font-weight: 700; color: #fff; margin-bottom: 12px;
+      letter-spacing: 0.2px;
+    }
+    .note {
+      font-size: 13px; color: var(--dimmer); line-height: 1.65; margin-bottom: 14px;
+    }
+
+    hr { border: none; border-top: 1px solid rgba(61,220,110,0.12); margin: 18px 0; }
+
+    /* ── Week grid ── */
+    .weeks-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;
+    }
+    .week-card {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px 12px 10px;
+      cursor: pointer;
+      transition: all .2s;
+    }
+    .week-card:hover { border-color: var(--border-bright); transform: translateY(-1px); }
+    .week-card.locked { opacity: 0.32; cursor: not-allowed; pointer-events: none; }
+    .wk-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 22px; color: #fff; line-height: 1; margin-bottom: 4px;
+    }
+    .wk-sub { font-size: 11px; color: var(--dimmer); line-height: 1.4; margin-bottom: 8px; }
+    .wk-badge {
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 3px 9px; border-radius: 999px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 800; font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase;
+      border: 1px solid var(--border); color: var(--muted);
+    }
+    .wk-badge.open { border-color: var(--border-bright); color: var(--green); }
+    .wk-badge.done { border-color: rgba(255,209,102,0.35); color: var(--gold); }
+
+    /* ── Week panel ── */
+    .week-panel {
+      display: none; margin-top: 14px; animation: fadeUp .3s ease;
+    }
+    .week-panel.active { display: block; }
+    @keyframes fadeUp { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+
+    .panel-header {
+      display: flex; align-items: flex-start; justify-content: space-between;
+      gap: 12px; flex-wrap: wrap; margin-bottom: 14px;
+    }
+    .panel-title-h { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 700; color: #fff; line-height: 1; }
+    .panel-title-s { font-size: 12px; color: var(--muted); letter-spacing: 1px; margin-top: 4px; }
+    .btn-ghost {
+      padding: 8px 14px;
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--muted);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 800; font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+      cursor: pointer; transition: all .2s;
+    }
+    .btn-ghost:hover { border-color: var(--border-bright); color: var(--text); }
+
+    .verse {
+      background: rgba(61,220,110,0.06);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--green);
+      border-radius: 10px;
+      padding: 14px 16px;
+      margin-bottom: 14px;
+    }
+    .verse-ref {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 800; font-size: 10px; letter-spacing: 2.5px; text-transform: uppercase;
+      color: var(--green); margin-bottom: 6px;
+    }
+    .verse-txt {
+      font-family: 'Playfair Display', serif;
+      font-size: 14px; font-style: italic; line-height: 1.8; color: var(--text);
+    }
+
+    /* ── Assignments ── */
+    .assignment-list { display: flex; flex-direction: column; gap: 12px; }
+    .assignment-item { display: flex; gap: 12px; align-items: flex-start; }
+    .a-check {
+      width: 20px; height: 20px; min-width: 20px;
+      border: 2px solid rgba(61,220,110,0.30);
+      border-radius: 6px;
+      background: rgba(10,22,14,0.9);
+      cursor: pointer; position: relative;
+      transition: all .2s; flex-shrink: 0; margin-top: 2px;
+    }
+    .a-check.done { background: var(--green); border-color: var(--green); }
+    .a-check.done::after {
+      content: '✓'; position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%,-50%); color: #0a1a0e; font-size: 12px; font-weight: 900;
+    }
+    .a-body.done .a-title { text-decoration: line-through; opacity: 0.4; }
+    .a-title { font-size: 13.5px; font-weight: 800; color: var(--text); margin-bottom: 2px; line-height: 1.4; }
+    .a-desc { font-size: 12px; color: var(--dimmer); line-height: 1.5; }
+
+    /* ── Declarations ── */
+    .affirm-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .affirm-item {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      transition: border-color .2s;
+    }
+    .affirm-item:hover { border-color: var(--border-bright); }
+    .affirm-main { display: flex; align-items: flex-start; gap: 12px; padding: 14px 14px 12px; }
+    .affirm-num {
+      font-family: 'Bebas Neue', sans-serif; font-size: 20px;
+      color: var(--green); opacity: 0.5; line-height: 1; flex-shrink: 0; min-width: 24px;
+    }
+    .affirm-text {
+      font-size: 13.5px; font-weight: 600; color: var(--text); line-height: 1.7; flex: 1;
+      overflow: hidden; display: -webkit-box;
+      -webkit-box-orient: vertical; -webkit-line-clamp: 3;
+    }
+    .affirm-item.expanded .affirm-text { -webkit-line-clamp: unset; display: block; overflow: visible; }
+    .affirm-actions { display: flex; gap: 6px; flex-shrink: 0; align-self: flex-start; margin-top: 2px; }
+    .btn-mini {
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      color: var(--dimmer);
+      font-size: 9px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 800; letter-spacing: 1px; text-transform: uppercase;
+      padding: 5px 9px; cursor: pointer; transition: all .2s; white-space: nowrap;
+    }
+    .btn-mini:hover, .btn-mini.copied { border-color: var(--green); color: var(--green); }
+
+    /* ── Highlights ── */
+    .highlights-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px; }
+    .highlight-item {
+      display: flex; align-items: flex-start; gap: 10px;
+      background: rgba(61,220,110,0.06);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 11px 13px;
+    }
+    .highlight-bullet {
+      color: var(--green); font-size: 16px; line-height: 1; flex-shrink: 0; margin-top: 1px;
+    }
+    .highlight-text { font-size: 13.5px; color: var(--text); line-height: 1.65; font-weight: 600; }
+
+    /* Toast */
+    #toast {
+      position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%);
+      background: rgba(10,24,14,0.97); border: 1px solid var(--border-bright);
+      color: var(--text); padding: 11px 18px; border-radius: 10px;
+      font-size: 13px; z-index: 9999; transition: opacity .3s; pointer-events: none;
+      box-shadow: 0 14px 40px rgba(0,0,0,0.45);
+      max-width: min(480px, calc(100vw - 24px)); text-align: center;
+    }
+
+    @media (max-width: 540px) {
+      .weeks-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <!-- HEADER -->
+  <header>
+    <div class="blw-tag">BLW Canada</div>
+    <img
+      class="hero-img"
+      src="https://raw.githubusercontent.com/Amber-E-Moseri/playing-money-game/main/heroptmg.png"
+      alt="Playing the Money Game"
+    />
+  </header>
+
+
+  <!-- DECLARATIONS -->
+  <div class="section">
+    <div class="eyebrow">Daily Declarations</div>
+    <div class="section-title">Speak It Daily</div>
+
+    <ul class="affirm-list" id="affirm-list">
+
+      <li class="affirm-item" id="aff-1">
+        <div class="affirm-main">
+          <div class="affirm-num">W1</div>
+          <div class="affirm-text">
+            I affirm that I am in God's place for my life! Every day of my life, I experience an overflow of financial blessings, wealth, and prosperity, all to the glory of God.<br><br>
+            My life is a manifestation of His abundance and grace, and I am consistently making progress in every area of my life. In Christ, I have access to the unshakable riches of God. I'm empowered to succeed, and every investment I make multiplies exponentially.<br><br>
+            The law of multiplication is at work in my finances — everything I touch flourishes. Goodness and mercy surround my wealth, and my prosperity knows no end. God has granted me unlimited resources, and I am connected to a limitless supply. My wealth grows effortlessly, and I am divinely positioned for financial success. Nothing in my hands diminishes, for I am a steward of God's inexhaustible abundance. Hallelujah! Glory to God!
+          </div>
+          <div class="affirm-actions">
+            <button class="btn-mini" onclick="toggleExpand(this)">Expand</button>
+            <button class="btn-mini" onclick="copyAffirm(this)">Copy</button>
+          </div>
+        </div>
+      </li>
+
+      <li class="affirm-item" id="aff-2">
+        <div class="affirm-main">
+          <div class="affirm-num">W2</div>
+          <div class="affirm-text">
+            I am blessed beyond measure — the Lord has lavished His goodness upon me, and I walk in the fullness of His divine provision. God's blessing has made me rich, and there's no sorrow in my path. I am empowered to create wealth, and my finances overflow with supernatural increase.<br><br>
+            I am blessed with great riches and wealth. The angels of wealth and riches are in my house, and my righteousness is established forever. I walk in supernatural prosperity; my ways are past finding out. The blessing of the Lord has permanently rested upon me. I am swimming in an overflow — an abundance of wealth and fortune. The Lord has crowned my year with goodness, and my paths drip with abundance.
+          </div>
+          <div class="affirm-actions">
+            <button class="btn-mini" onclick="toggleExpand(this)">Expand</button>
+            <button class="btn-mini" onclick="copyAffirm(this)">Copy</button>
+          </div>
+        </div>
+      </li>
+
+      <li class="affirm-item" id="aff-3">
+        <div class="affirm-main">
+          <div class="affirm-num">W3</div>
+          <div class="affirm-text">
+            God has brought me into a large place; I flourish like the palm tree, growing mightily like the cedar of Lebanon. Everything I get involved with prospers and yields profits beyond natural comprehension.<br><br>
+            I am diligent in all my dealings, and this has caused me to stand before kings. I live in unexplainable financial abundance. The glory, grace, wisdom, and perfections of God are fully expressed through my finances. Hallelujah!<br><br>
+            God has unveiled and revealed to me doors of prosperity which no eye has seen, no ear has heard, and which have not entered the heart of men. I am not part of the suffering masses. I am made for life and set up for honour, on the path of supernatural success!
+          </div>
+          <div class="affirm-actions">
+            <button class="btn-mini" onclick="toggleExpand(this)">Expand</button>
+            <button class="btn-mini" onclick="copyAffirm(this)">Copy</button>
+          </div>
+        </div>
+      </li>
+
+    </ul>
+  </div>
+
+  <!-- WEEKS -->
+  <div class="section" id="weeks">
+    <div class="eyebrow">Weekly Lessons</div>
+    <div class="section-title">Weeks</div>
+
+    <div class="weeks-grid" id="weeks-grid"></div>
+    <div class="week-panel" id="week-panel"></div>
+  </div>
+
+
+
+</div>
+
+<script>
+  // ── Config ──────────────────────────────────────────────────────────────
+  const CURRENT_WEEK  = 3;
+  const UNLOCKED_THRU = 3;
+  const TOTAL_WEEKS   = 6;
+
+  const weekData = {
+    1: { subtitle: "", date: "Feb 18, 2026" },
+    2: { subtitle: "", date: "Feb 25, 2026" },
+    3: { subtitle: "Sowing & reaping",           date: "Mar 4, 2026"  },
+    4: { subtitle: "Unlocks soon",               date: "Mar 11, 2026" },
+    5: { subtitle: "Unlocks soon",               date: "Mar 18, 2026" },
+    6: { subtitle: "Unlocks soon",               date: "Mar 25, 2026" },
+  };
+
+  const weekLessons = {
+    1: {
+      verseRef: "", verseText: "",
+      highlights: [],
+      hw: [
+        { t: "Watch the replay and write 5 key takeaways.",      d: "Short bullet points. Keep it practical." },
+        { t: "Set one financial goal for the program period.",    d: "Make it measurable — amount + date." },
+        { t: "Create a simple spending plan for this week.",      d: "Track money in and money out." },
+      ]
+    },
+    2: {
+      verseRef: "", verseText: "",
+      highlights: [],
+      hw: [
+        { t: "Identify 3 spending leaks and cut them.",          d: "Write what you will do instead." },
+        { t: "Write out 3 faith-confessions about your finances.", d: "Say them out loud daily." },
+        { t: "Plan one seed and sow intentionally.",             d: "Give with joy, not pressure." },
+      ]
+    },
+    3: {
+      verseRef: "Galatians 6:7",
+      verseText: "\"Be not deceived; God is not mocked: for whatsoever a man soweth, that shall he also reap.\"",
+      highlights: [
+        "You cannot reap where you have not sown — sowing is not optional, it is the law.",
+        "Every seed has a due season. Don't dig it up with doubt before the harvest comes.",
+        "Sow with intention. A seed sown without expectation is just a gift — not a faith act.",
+        "The ground you sow into matters. Honour God's principles and He will honour your harvest.",
+        "Fear kills harvests. The seed you refuse to sow is the blessing you will never receive.",
+      ],
+      hw: [
+        { t: "Identify one seed you will sow this week — be specific.",      d: "A financial seed, a seed of time, a seed of encouragement." },
+        { t: "Declare the daily declarations out loud every morning.",        d: "Before you check your phone. Minimum 5 days." },
+        { t: "Study 2 Corinthians 9:6–10 and write what each verse means.",  d: "Put your name in it. Make it a personal confession." },
+        { t: "Write 3 areas where you have been afraid to sow.",             d: "Find a scripture for each fear and replace it with the word." },
+        { t: "Share one principle from this session with at least one person.", d: "Teaching cements it in you." },
+      ]
+    },
+    4: { verseRef: "", verseText: "", highlights: [], hw: [] },
+    5: { verseRef: "", verseText: "", highlights: [], hw: [] },
+    6: { verseRef: "", verseText: "", highlights: [], hw: [] },
+  };
+
+  // ── Weeks grid ──────────────────────────────────────────────────────────
+  function renderWeeks() {
+    const grid = document.getElementById('weeks-grid');
+    grid.innerHTML = '';
+    for (let w = 1; w <= TOTAL_WEEKS; w++) {
+      const locked  = w > UNLOCKED_THRU;
+      const current = w === CURRENT_WEEK;
+      const d = weekData[w];
+
+      const past = w < CURRENT_WEEK;
+
+      const badge = locked
+        ? `<span class="wk-badge">🔒 Locked</span>`
+        : current
+          ? `<span class="wk-badge open">🟢 Open</span>`
+          : `<span class="wk-badge done">✓ Done</span>`;
+
+      const card = document.createElement('div');
+      card.className = 'week-card' + (locked || past ? ' locked' : '');
+      card.innerHTML = `
+        <div class="wk-num">Week ${w}</div>
+        <div class="wk-sub">${d.subtitle}<br><span style="opacity:.6;font-size:10px">${d.date}</span></div>
+        ${badge}
+      `;
+      if (!locked && !past) card.addEventListener('click', () => openWeek(w));
+      grid.appendChild(card);
+    }
+  }
+
+  function openWeek(w) {
+    const panel = document.getElementById('week-panel');
+    const lesson = weekLessons[w] || {};
+    const d = weekData[w] || {};
+    panel.classList.add('active');
+
+    const verse = (lesson.verseRef && lesson.verseText)
+      ? `<div class="verse">
+           <div class="verse-ref">${esc(lesson.verseRef)}</div>
+           <div class="verse-txt">${esc(lesson.verseText)}</div>
+         </div>`
+      : '';
+
+    const hw = lesson.hw && lesson.hw.length
+      ? lesson.hw.map((h, i) => `
+          <div class="assignment-item">
+            <div class="a-check" data-key="ptmg_w${w}_${i}" onclick="toggleHw(this)"></div>
+            <div class="a-body">
+              <div class="a-title">${esc(h.t)}</div>
+              <div class="a-desc">${esc(h.d)}</div>
+            </div>
+          </div>`).join('')
+      : `<p class="note">Content coming soon.</p>`;
+
+    const highlightsBlock = (lesson.highlights && lesson.highlights.length)
+      ? `<div class="eyebrow" style="margin-bottom:10px;">Session Highlights</div>
+         <div class="highlights-list">
+           ${lesson.highlights.map(h => `
+             <div class="highlight-item">
+               <span class="highlight-bullet">✦</span>
+               <span class="highlight-text">${esc(h)}</span>
+             </div>`).join('')}
+         </div>` : '';
+
+    panel.innerHTML = `
+      <div class="panel-header">
+        <div>
+          <div class="panel-title-h">Week ${w}</div>
+          <div class="panel-title-s">${esc(d.date)} · ${esc(d.subtitle)}</div>
+        </div>
+        <button class="btn-ghost" onclick="closeWeek()">Close ✕</button>
+      </div>
+      ${verse}
+      ${highlightsBlock}
+      <div class="eyebrow" style="margin-bottom:10px;">Assignments</div>
+      <div class="assignment-list">${hw}</div>
+    `;
+
+    // restore saved checkboxes
+    panel.querySelectorAll('.a-check[data-key]').forEach(el => {
+      if (localStorage.getItem(el.dataset.key) === '1') {
+        el.classList.add('done');
+        el.nextElementSibling.classList.add('done');
+      }
+    });
+
+    panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function closeWeek() {
+    const panel = document.getElementById('week-panel');
+    panel.classList.remove('active');
+    panel.innerHTML = '';
+  }
+
+  function toggleHw(el) {
+    el.classList.toggle('done');
+    el.nextElementSibling.classList.toggle('done');
+    const key = el.dataset.key;
+    if (key) localStorage.setItem(key, el.classList.contains('done') ? '1' : '0');
+  }
+
+  // ── Declarations ────────────────────────────────────────────────────────
+  function toggleExpand(btn) {
+    const item = btn.closest('.affirm-item');
+    const expanded = item.classList.toggle('expanded');
+    btn.textContent = expanded ? 'Collapse' : 'Expand';
+  }
+
+  function copyAffirm(btn) {
+    const text = btn.closest('.affirm-main').querySelector('.affirm-text').innerText.trim();
+    navigator.clipboard.writeText(text).then(() => {
+      btn.textContent = '✓ Copied'; btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2200);
+    }).catch(() => showToast('Select and copy the text manually.'));
+  }
+
+  // hide expand for short texts
+  document.querySelectorAll('.affirm-item').forEach(item => {
+    if ((item.querySelector('.affirm-text')?.innerText || '').trim().length < 180)
+      item.querySelector('.btn-mini')?.style && (item.querySelector('.btn-mini').style.display = 'none');
+  });
+
+
+  function esc(s) {
+    return String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  function showToast(msg) {
+    const old = document.getElementById('toast'); if (old) old.remove();
+    const t = document.createElement('div'); t.id = 'toast'; t.textContent = msg;
+    document.body.appendChild(t);
+    setTimeout(() => { t.style.opacity = '0'; setTimeout(() => t.remove(), 300); }, 2800);
+  }
+
+  // ── Init ────────────────────────────────────────────────────────────────
+  renderWeeks();
+</script>
+</body>
+</html>
