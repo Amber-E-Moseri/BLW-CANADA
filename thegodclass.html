@@ -21,11 +21,8 @@
       --accent2:      #d4205c;
       --pill-text:    #6e1030;
 
-      /* ✅ unified button geometry */
       --btn-h: 48px;
       --btn-r: 12px;
-
-      /* ✅ role cards geometry */
       --role-h: 76px;
       --role-r: 12px;
     }
@@ -223,7 +220,6 @@
       font-size: 10px; color: var(--faint); pointer-events: none;
     }
 
-    /* ✅ ROLE GRID — FIXED (equal height + no spans) */
     .role-grid{
       display: grid;
       grid-template-columns: repeat(5, minmax(0, 1fr));
@@ -244,7 +240,6 @@
       cursor: pointer;
       background: rgba(255,255,255,0.03);
       border-radius: var(--role-r);
-
       display:flex;
       flex-direction:column;
       align-items:center;
@@ -256,7 +251,6 @@
 
     .rc-icon{ font-size: 18px; margin: 0; }
 
-    /* ✅ Prevent label wrapping from changing card height */
     .rc-label{
       font-weight: 300;
       font-size: 9px;
@@ -264,9 +258,8 @@
       text-transform: uppercase;
       color: var(--sub);
       line-height: 1.15;
-
       display: -webkit-box;
-      -webkit-line-clamp: 2;       /* allow 2 lines max, but never grows height */
+      -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
       overflow: hidden;
     }
@@ -291,7 +284,6 @@
 
     .btn-row { display: flex; gap: 10px; margin-top: 28px; align-items: stretch; }
 
-    /* ✅ unified button geometry */
     .btn-back, .btn-next, .btn-submit, .btn-zoom, .btn-ics{
       height: var(--btn-h);
       border-radius: var(--btn-r);
@@ -381,11 +373,8 @@
     @media (max-width: 560px) {
       .form-card { padding: 32px 20px; }
       .f-row { grid-template-columns: 1fr; }
-
-      /* ✅ mobile roles */
       .role-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .rc-inner { height: 78px; }
-
       .title-main { font-size: 58px; letter-spacing: 1px; }
       .poster-star { top: 16px; left: 16px; width: 60px; height: 60px; }
     }
@@ -543,6 +532,7 @@
         <div class="fg">
           <label for="exp" style="color:rgba(244,243,246,0.50);letter-spacing:2px;">Any questions you'd like answered?</label>
           <div style="font-size:11px;color:rgba(244,243,246,0.34);margin-bottom:8px;line-height:1.5;letter-spacing:0.3px;">No rush — you can also send questions in via Slido before the session.</div>
+          <textarea id="exp" placeholder="Type your question here…"></textarea>
         </div>
 
         <div style="margin-top:14px;">
@@ -574,7 +564,7 @@
 
   <script>
     const ENDPOINT = "https://script.google.com/macros/s/AKfycbw4ak2BGJuwNv9Ni43U7oObwA-2RPCXXTycPPZp6G0ghanz4dc0FQKOGgEp9VDQYSrodQ/exec?program=tgc";
-    const ZOOM     = "https://arizona.zoom.us/j/9780367559";
+    const ZOOM     = "https://zoom.us/my/blwcan?pwd=ESVZef1AL3Oj6xopVw4P0XxhpRPQuL.1";
     let cur = 1;
     const TOTAL = 2;
 
@@ -619,19 +609,13 @@
     function se(id,el) { document.getElementById(id).style.display='block'; if(el) el.classList.add('err'); }
     function he(id,el) { document.getElementById(id).style.display='none';  if(el) el.classList.remove('err'); }
 
-    /* ✅ INSTANT SUBMIT */
     let submitting = false;
-    async function doSubmit() {
+    function doSubmit() {
       if (submitting) return;
       if (!validate(1)) { go(1); return; }
       if (!validate(2)) return;
 
       submitting = true;
-
-      const btn = document.querySelector('#step2 .btn-submit');
-      btn.disabled = true;
-      btn.style.opacity = '.65';
-      btn.textContent = 'Submitting…';
 
       const r = document.querySelector('input[name=role]:checked');
 
@@ -642,14 +626,14 @@
         phone:     document.getElementById('ph').value.trim(),
         subgroup:  document.getElementById('sg').value,
         role:      r ? r.value : '',
-        expectation: document.getElementById('exp').value.trim(),
+        expectation: document.getElementById('exp') ? document.getElementById('exp').value.trim() : '',
         agreeReminder: document.getElementById('rem').checked,
         source: window.location.href,
         userAgent: navigator.userAgent,
         ts: Date.now()
       };
 
-      // show success instantly
+      // Show success immediately — don't wait on the network
       document.getElementById('step2').classList.remove('active');
       document.getElementById('stepCounter').style.display = 'none';
       document.getElementById('progFill').style.width = '100%';
@@ -657,24 +641,13 @@
       document.getElementById('zBtn').href  = ZOOM;
       document.getElementById('zLink').href = ZOOM;
 
-      const body = JSON.stringify(payload);
-
-      try {
-        if (navigator.sendBeacon) {
-          const ok = navigator.sendBeacon(
-            ENDPOINT,
-            new Blob([body], { type: 'text/plain;charset=utf-8' })
-          );
-          if (ok) return;
-        }
-      } catch(e) {}
-
+      // Fire-and-forget — no preflight, no waiting
       fetch(ENDPOINT, {
         method: 'POST',
-        mode: 'cors',
+        mode: 'no-cors',
         cache: 'no-store',
         headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-        body
+        body: JSON.stringify(payload)
       }).catch(() => {});
     }
 
